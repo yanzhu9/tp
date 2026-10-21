@@ -274,6 +274,17 @@ public class ClassCommandsIntegrationTest {
     }
 
     @Test
+    public void enrolByIdCommand_equals() {
+        ClassEnrolCommand command = new ClassEnrolCommand(
+                Index.fromOneBased(1), new ClassId("C001"));
+
+        assertEquals(command, new ClassEnrolCommand(
+                Index.fromOneBased(1), new ClassId("C001")));
+        assertNotEquals(command, new ClassEnrolCommand(
+                Index.fromOneBased(1), new ClassId("C002")));
+    }
+
+    @Test
     public void enrolMultipleCommand_equals() {
         List<Index> indexes = List.of(Index.fromOneBased(1), Index.fromOneBased(2));
         ClassEnrolCommand command = new ClassEnrolCommand(indexes, LESSON.getSubject(), LESSON.getTiming());

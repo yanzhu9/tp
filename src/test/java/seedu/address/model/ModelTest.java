@@ -66,6 +66,29 @@ public class ModelTest {
     }
 
     @Test
+    public void findTuitionClass_matchingAndNonMatchingDetails_returnsExpectedResult() {
+        DefaultComparatorModel model = new DefaultComparatorModel();
+        TuitionClass math = tuitionClass("C001", "Math", "30", "Monday1800-1930");
+        model.addressBook.addTuitionClass(math);
+
+        assertEquals(math, model.findTuitionClass(
+                new Subject("math"), new LessonTiming("Monday1800-1930")).orElseThrow());
+        assertTrue(model.findTuitionClass(
+                new Subject("Math"), new LessonTiming("Tuesday1800-1930")).isEmpty());
+        assertTrue(model.findTuitionClass(
+                new Subject("Physics"), new LessonTiming("Monday1800-1930")).isEmpty());
+    }
+
+    @Test
+    public void findTuitionClass_nullArgument_throwsNullPointerException() {
+        DefaultComparatorModel model = new DefaultComparatorModel();
+
+        assertThrows(NullPointerException.class, () -> model.findTuitionClass(null,
+                new LessonTiming("Monday1800-1930")));
+        assertThrows(NullPointerException.class, () -> model.findTuitionClass(new Subject("Math"), null));
+    }
+
+    @Test
     public void hasClassCostConflict_sameClassDifferentCost_returnsTrueOnlyForConflict() {
         DefaultComparatorModel model = new DefaultComparatorModel();
         model.addressBook.addTuitionClass(tuitionClass("C001", "Math", "30", "Monday1800-1930"));

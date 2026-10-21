@@ -174,6 +174,12 @@ public class ClassCommandParserTest {
     }
 
     @Test
+    public void parse_enrolMissingIndex_failure() {
+        String expected = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ClassEnrolCommand.MESSAGE_USAGE);
+        assertParseFailure(parser, " enrol sub/Math c/Monday1800-1930", expected);
+    }
+
+    @Test
     public void parse_enrolMissingSubject_failure() {
         String expected = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ClassEnrolCommand.MESSAGE_USAGE);
         assertParseFailure(parser, " enrol 1 cost/30 c/Monday1800-1930", expected);
@@ -183,6 +189,7 @@ public class ClassCommandParserTest {
     public void parse_enrolMissingTiming_failure() {
         String expected = String.format(MESSAGE_INVALID_COMMAND_FORMAT, ClassEnrolCommand.MESSAGE_USAGE);
         assertParseFailure(parser, " enrol 1 sub/Math cost/30", expected);
+        assertParseFailure(parser, " enrol 1 sub/Math", expected);
     }
 
     @Test
